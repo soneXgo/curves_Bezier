@@ -1,16 +1,16 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def bezier_curve(points):
+def bezier_curve(points, num_points = 10000):
     curve = []
-    for i in range(0, 10000 + 1, 1):
-        t = i/10000.0
+    t = np.linspace(0, 1, num_points)
+    for i in range(num_points):
         p0 = points[0]
         p1 = points[1]
         p2 = points[2]
         p3 = points[3]
-        x = (1.0-t)**3*p0[0] + 3*(1.0-t)**2*t*p1[0] + 3*(1.0-t)*t**2*p2[0] + t**3*p3[0]
-        y = (1.0-t)**3*p0[1] + 3*(1.0-t)**2*t*p1[1] + 3*(1.0-t)*t**2*p2[1] + t**3*p3[1]
+        x = (1.0-t[i])**3*p0[0] + 3*(1.0-t[i])**2*t[i]*p1[0] + 3*(1.0-t[i])*t[i]**2*p2[0] + t[i]**3*p3[0]
+        y = (1.0-t[i])**3*p0[1] + 3*(1.0-t[i])**2*t[i]*p1[1] + 3*(1.0-t[i])*t[i]**2*p2[1] + t[i]**3*p3[1]
         curve.append([x, y])
     return curve
 
@@ -83,8 +83,8 @@ def get_first_control_points(rhs):
     return x
 
 # Пример данных точек
-# knots = [[0, 0], [2, 1], [4, 4], [7, 7], [10,4], [12,1], [14, 0]]
-knots = [[0, 0], [1, 3], [2, 1],[3,2]]
+knots = [[0, 0], [2, 1], [4, 4], [7, 7], [10,4], [12,1], [14, 0]]
+# knots = [[0, 0], [1, 3], [2, 1],[3,2]]
 
 first_control_points, second_control_points = get_curve_control_points(knots)
 c_points =[]
