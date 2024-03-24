@@ -1,4 +1,5 @@
 import pygame
+import numpy as np
 
 def de_casteljau(curve, points, t):
     if len(points) == 1:
@@ -12,10 +13,10 @@ def de_casteljau(curve, points, t):
             new_points.append((x, y))
         de_casteljau(curve, new_points, t)
 
-def draw_de_casteljau(curve, points):
-    for i in range(0, 10000 + 1, 1):
-        t = i/10000.0
-        de_casteljau(curve, points, t)
+def draw_de_casteljau(curve, points, num_points = 10000):
+    t = np.linspace(0, 1, num_points)
+    for i in range(num_points):
+        de_casteljau(curve, points, t[i])
 
 
 BLACK = (0,0,0)
