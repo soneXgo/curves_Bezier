@@ -23,12 +23,13 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
 GRAY = (180, 180, 180)
 points = []
+ctrl_points = []
 curve = []
 curves = []
 press = 0
 
 pygame.init()
-screen = pygame.display.set_mode((1000, 600))
+screen = pygame.display.set_mode((1200, 600))
 clock = pygame.time.Clock()
 
 while True:
@@ -42,6 +43,7 @@ while True:
                 press = 0
             if event.key == pygame.K_a: 
                 curves.append(curve)
+                ctrl_points.append(points)
                 points = [] 
                 curve = [] 
                 press = 0   
@@ -71,6 +73,12 @@ while True:
             pygame.draw.circle(screen, GRAY, point, 5, 1)
         curve=[]
         draw_de_casteljau(curve, points)
+
+
+    for ps in ctrl_points:
+        pygame.draw.aalines(screen, GRAY, False, ps)
+        for point in ps: 
+            pygame.draw.circle(screen, GRAY, point, 5, 1)
 
     for crv in curves:
         for point in crv:
