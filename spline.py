@@ -93,18 +93,59 @@ def get_bezier_spline_points(knots):
 # Пример данных точек
 #knots = [[0, 0], [2, 1], [4, 4], [7, 7], [10,4], [12,1], [14, 0]]
 #knots = [[0, 1.5], [2, 3], [4, 1],[6,2]]
-knots = [[3, 3], [1, 5], [2,6],[2.8, 5.5], [3, 5.2],[3.2, 5.5],[4,6], [5,5],[3,3]]
+#knots = [[3, 3], [1, 5], [2,6],[2.8, 5.5], [3, 5.2],[3.2, 5.5],[4,6], [5,5],[3,3]]
 #knots = [[1, 1.5], [2, 1],[3,2]]
 
-spline_points, ctrl_points = get_bezier_spline_points(knots)
+#spline_points, ctrl_points = get_bezier_spline_points(knots)
 
-plt.figure()
-plt.plot([point[0] for point in spline_points], [point[1] for point in spline_points], 'b-')
-plt.plot([point[0] for point in ctrl_points], [point[1] for point in ctrl_points], 'ro-')
+BLACK = (0,0,0)
+WHITE = (255,255,255)
+GRAY = (180, 180, 180)
+RED = (255,0,0)
+points = []
+ctrl_points = []
+spline_points = []
 
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.title('Bezier Spline')
-plt.legend()
-plt.grid()
-plt.show()
+pygame.init()
+screen = pygame.display.set_mode((1000, 600))
+clock = pygame.time.Clock()
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                points.append(event.pos)
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_d:
+                if len(points) > 1:
+                    spline_points, ctrl_points = get_bezier_spline_points(points)
+                    break
+    screen.fill(WHITE)
+    if ctrl_points:
+        pygame.draw.aalines(screen, GRAY, False, ctrl_points)
+        for point in ctrl_points:
+            pygame.draw.circle(screen, GRAY, point, 5, 1)
+
+    for point in points:
+        pygame.draw.circle(screen, RED, point, 3)
+
+    for point in spline_points:
+        pygame.draw.circle(screen, BLACK, point, 1)
+   
+    pygame.display.flip()
+    clock.tick(30)
+    
+
+
+# plt.figure()
+# plt.plot([point[0] for point in spline_points], [point[1] for point in spline_points], 'b-')
+# plt.plot([point[0] for point in ctrl_points], [point[1] for point in ctrl_points], 'ro-')
+
+# plt.xlabel('X')
+# plt.ylabel('Y')
+# plt.title('Bezier Spline')
+# plt.legend()
+# plt.grid()
+# plt.show()
