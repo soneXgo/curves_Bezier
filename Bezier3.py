@@ -1,24 +1,36 @@
 import pygame
 import numpy as np
 
-def draw_Bezier3(curve, points, num_points = 10000):
+
+def draw_Bezier3(curve, points, num_points=10000):
     t = np.linspace(0, 1, num_points)
     for i in range(num_points):
         p0 = points[0]
         p1 = points[1]
         p2 = points[2]
         p3 = points[3]
-        x = (1.0-t[i])**3*p0[0] + 3*(1.0-t[i])**2*t[i]*p1[0] + 3*(1.0-t[i])*t[i]**2*p2[0] + t[i]**3*p3[0]
-        y = (1.0-t[i])**3*p0[1] + 3*(1.0-t[i])**2*t[i]*p1[1] + 3*(1.0-t[i])*t[i]**2*p2[1] + t[i]**3*p3[1]
+        x = (
+            (1.0 - t[i]) ** 3 * p0[0]
+            + 3 * (1.0 - t[i]) ** 2 * t[i] * p1[0]
+            + 3 * (1.0 - t[i]) * t[i] ** 2 * p2[0]
+            + t[i] ** 3 * p3[0]
+        )
+        y = (
+            (1.0 - t[i]) ** 3 * p0[1]
+            + 3 * (1.0 - t[i]) ** 2 * t[i] * p1[1]
+            + 3 * (1.0 - t[i]) * t[i] ** 2 * p2[1]
+            + t[i] ** 3 * p3[1]
+        )
         curve.append([x, y])
     pygame.draw.lines(screen, BLACK, False, curve, 3)
-    
-BLACK = (0,0,0)
-WHITE = (255,255,255)
+
+
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
 GRAY = (180, 180, 180)
 points = []
 curve = []
-curves = [] 
+curves = []
 press = 0
 
 pygame.init()
@@ -34,11 +46,11 @@ while True:
                 points = []
                 curve = []
                 press = 0
-            if event.key == pygame.K_a: 
+            if event.key == pygame.K_a:
                 curves.append(curve)
-                points = [] 
-                curve = [] 
-                press = 0  
+                points = []
+                curve = []
+                press = 0
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 if press == 0:
@@ -63,9 +75,9 @@ while True:
         pygame.draw.aalines(screen, GRAY, False, points)
         for point in points:
             pygame.draw.circle(screen, GRAY, point, 5, 1)
-        curve=[]
+        curve = []
         draw_Bezier3(curve, points)
-        
+
     for crv in curves:
         pygame.draw.lines(screen, BLACK, False, crv, 3)
 
